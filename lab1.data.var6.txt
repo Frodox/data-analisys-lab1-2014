@@ -1,0 +1,11 @@
+; config for lab1
+; ts: 8
+
+[data]
+ncount 		= 200
+dprovider 	= 20
+dcustomer 	= 40
+nmin 		= 20
+nmax 		= 40
+step 		= 2
+alpha 		= 0.01
