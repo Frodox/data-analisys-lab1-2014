@@ -118,11 +118,10 @@ func main() {
 
 
 	/* Determine betta */
+
 	betta := 0.0
 	for i := 0; i <= c; i++ {
-		//fmt.Printf("i: = %d\n", i);
 		if (n-uint64(i)) > (N-D_customer) {
-			//fmt.Println("skip")
 			continue
 		}
 		betta += P1_sharp(uint64(i), N, n, D_customer)
@@ -138,13 +137,10 @@ func P1_sharp ( l uint64, N uint64, n uint64, D_f uint64 ) (res float64) {
 	res = 0;
 	C := CombinationBig // just alias
 
-	//fmt.Println("1--------------");
-
 	// C (D_f, l) * C (N-D_f, n-l)
-	numerator_int := big.NewInt(1);
 	//fmt.Printf("D: C(%d, %d) * C(%d, %d)\n", D_f, l, N-D_f, n-l);
+	numerator_int := big.NewInt(1);
 	numerator_int.Mul( C(D_f, l), C(N-D_f, n-l) );
-	//fmt.Println("2--------------");
 
 	numerator_rat := big.NewRat(1, 1);
 	numerator_rat.SetInt(numerator_int);

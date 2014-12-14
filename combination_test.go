@@ -1,8 +1,6 @@
 package main
 
 import (
-	//"os"
-	//"fmt"
 	"math/big"
 	"testing"
 )
@@ -11,7 +9,7 @@ func TestAllCasesCombinationBig (t *testing.T) {
 	var bres 	*big.Int
 	var n, k 	uint64
 	var res 	int64
-	
+
 
 	n, k = 0, 0; res = 1
 	bres = CombinationBig(n, k)

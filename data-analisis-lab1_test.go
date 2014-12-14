@@ -1,9 +1,7 @@
 package main
 
 import (
-	//"os"
 	"fmt"
-	//"math/big"
 	"testing"
 )
 
