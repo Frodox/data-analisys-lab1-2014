@@ -25,7 +25,7 @@ type Config struct {
 		Dcustomer	uint64;
 		Nmin		uint64
 		Nmax		uint64
-		Step		int;
+		Step		uint64;
 		Alpha		float64
 	}
 }
@@ -73,60 +73,70 @@ func main() {
 	/* Init convinient vars */
 
 	N := cfg.Data.Ncount
-	n := cfg.Data.Nmin
+	n_min := cfg.Data.Nmin
+	n_max := cfg.Data.Nmax
 	alpha := cfg.Data.Alpha
 	D_provider := cfg.Data.Dprovider
 	D_customer := cfg.Data.Dcustomer
+	step := cfg.Data.Step
 	fmt.Println("N: \t", N);
-	fmt.Println("n: \t", n);
+	fmt.Println("n_min: \t", n_min);
+	fmt.Println("n_max: \t", n_max);
 	fmt.Println("a: \t", alpha);
 	fmt.Println("D_п: \t", D_provider);
 	fmt.Println("D_з: \t", D_customer);
+	fmt.Println("=========================")
 
 
 	/* Minimal data checking */
 
-	if D_provider > n {
+	if D_provider > n_max {
 		fmt.Fprintln(os.Stderr,
-			"ERROR: D_provider must be <= n\n")
+			"ERROR: D_provider must be <= n_min\n")
 		os.Exit(1);
 	}
 
 
-	/* Calculate P( x=l | Ho ) */
+	for n:= n_min; n <= n_max; n+= step {
+		fmt.Printf("n = %d\n", n)
+		fmt.Println("--------------")
 
-	P_values := make([]float64, D_provider+1, D_provider+1)
-	for l:= uint64(0); l <= D_provider; l++ {
-		//fmt.Printf("l=%d , N=%d \n", l, N);
-		P_values[l] = P1_sharp(l, N, n, D_provider)
-	}
+		/* Calculate P( x=l | Ho ) */
 
-
-	/* Determine 'c' */
-
-	c := 0
-	for summ, i := 0.0, len(P_values)-1; i >= 0; i-- {
-		summ += P_values[i]
-		fmt.Printf("P(x = %2d) = %10.9f, summ: %f\n", i, P_values[i], summ);
-
-		if summ > alpha {
-			c = i
-			break
+		P_values := make([]float64, D_provider+1, D_provider+1)
+		for l:= uint64(0); l <= D_provider; l++ {
+			//fmt.Printf("l=%d , N=%d \n", l, N);
+			P_values[l] = P1_sharp(l, N, n, D_provider)
 		}
-	}
-	fmt.Printf("c = %d\n", c);
 
 
-	/* Determine betta */
+		/* Determine 'c' */
 
-	betta := 0.0
-	for i := 0; i <= c; i++ {
-		if (n-uint64(i)) > (N-D_customer) {
-			continue
+		c := 0
+		for summ, i := 0.0, len(P_values)-1; i >= 0; i-- {
+			summ += P_values[i]
+			//fmt.Printf("P(x = %2d) = %10.9f, summ: %f\n", i, P_values[i], summ);
+
+			if summ > alpha {
+				c = i
+				break
+			}
 		}
-		betta += P1_sharp(uint64(i), N, n, D_customer)
+
+
+		/* Determine betta */
+
+		betta := 0.0
+		for i := 0; i <= c; i++ {
+			if (n-uint64(i)) > (N-D_customer) {
+				continue
+			}
+			betta += P1_sharp(uint64(i), N, n, D_customer)
+		}
+
+		fmt.Printf("c = %d, betta = %f\n", c, betta);
+		fmt.Println("=========================")
 	}
-	fmt.Printf("betta = %f\n", betta);
 }
 
 // ------------------------------------------------------------------------- //
