@@ -2,13 +2,9 @@ package main
 
 import (
 	//"os"
-	"fmt"
+	//"fmt"
 	"math/big"
 )
-
-func hi() {
-	fmt.Println("Work");
-}
 
 func FactorialBig(n uint64) (r *big.Int) {
 	//fmt.Println("n = ", n)
