@@ -9,10 +9,10 @@ import (
 // C (n, k) = n! / k! (n-k)!
 func CombintationBig(n uint64, k uint64) (r *big.Int) {
 
-	if k <= 0 || n <= 0 {
-		fmt.Fprintf(os.Stderr,
-			"ERROR: n (%d) and k (%d) must be positive\n", n, k);
-		return nil
+	r = big.NewInt(1)
+
+	if 0 == k {
+		return 
 	}
 
 	if k > n {
@@ -33,7 +33,6 @@ func CombintationBig(n uint64, k uint64) (r *big.Int) {
 	denominator.Mul(k_factorial, n_minus_k_f)
 	//fmt.Printf("%d*%d \t: %v\n", k_factorial, n_minus_k_f, denominator);
 
-	r = big.NewInt(1)
 	r = r.Div( n_factorial, denominator );
 
 	return

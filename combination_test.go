@@ -12,25 +12,25 @@ func TestAllCasesCombinationBig (t *testing.T) {
 	var n, k uint64
 	var res int64
 
-	n, k = 0, 0; res = -1
+	n, k = 0, 0; res = 1
 	bres = CombintationBig(n, k)
-	if nil != bres {
-		t.Errorf("expect 'nil' but result is %v", res, bres)
+	if 0 != bres.Cmp(big.NewInt(res)) {
+		t.Errorf("expect %v but result is %v", res, bres)
 	}
 
 	n, k = 0, 1; res = -1
 	bres = CombintationBig(n, k)
 	if nil != bres {
-		t.Errorf("expect 'nil' but result is %v", res, bres)
+		t.Errorf("expect 'nil' but result is %v", bres)
 	}
 
-	n, k = 1, 0; res = -1
+	n, k = 1, 0; res = 1
 	bres = CombintationBig(n, k)
-	if nil != bres {
-		t.Errorf("expect 'nil' but result is %v", res, bres)
+	if 0 != bres.Cmp(big.NewInt(res)) {
+		t.Errorf("expect %v but result is %v", res, bres)
 	}
 
-	n, k = 1, 5; res = -1
+	n, k = 1, 50; res = -1
 	bres = CombintationBig(n, k)
 	if nil != bres {
 		t.Errorf("expect 'nil' but result is %v", res, bres)
