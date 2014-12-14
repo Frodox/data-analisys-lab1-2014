@@ -14,13 +14,7 @@ import (
 	"flag"
 	"path"
 	"os"
-	"log"
-	// config-file parser
-	"code.google.com/p/gcfg"
-	//"os/exec"
-	//"strconv"
-	//"strings"
-	//"math/rand"
+	"code.google.com/p/gcfg" // config parser
 )
 
 type Config struct {
@@ -35,37 +29,49 @@ type Config struct {
 	}
 }
 
-// --------------------------------------------------------------------------- //
+// ------------------------------------------------------------------------- //
 
 func main() {
 
-	/* Init cmd-line parser */
+	/* Setup cmd-line parser */
+
 	flag.Usage = func() {
-		fmt.Fprintf(os.Stderr, "Usage: %s [options]\n", path.Base(os.Args[0]))
+		fmt.Fprintf(os.Stderr,
+			"Usage: %s [options]\n",
+			path.Base(os.Args[0]))
 		fmt.Fprintf(os.Stderr, "Options:\n");
 		flag.PrintDefaults()
 
-		fmt.Fprintf(os.Stderr, "\nКакой-то типа текст прото, что нужно делать в лабе\n\n")
+		fmt.Fprintf(os.Stderr,
+			"\nКакой-то типа текст про то, что нужно делать в лабе\n\n")
 		os.Exit(0);
 	}
-	filenamePtr := flag.String("filename", "", "txt datafile for this lab")
+	filenamePtr := flag.String(
+		"filename",
+		"lab1.data.var6.txt",
+		"txt datafile for this lab")
 	flag.Parse()
 
 	if len(*filenamePtr) == 0 {
-		flag.Usage();
+		flag.Usage();	// will Exit(0)
 	}
 
 
-	/* Read data from data-file in memory */
+	/* Read data from data-file in memory-struct */
 
 	var cfg Config
 	err := gcfg.ReadFileInto(&cfg, *filenamePtr)
 	if err != nil {
-		fmt.Fprintln(os.Stderr, "Error occured during parsing data file:\n", err.Error());
+		fmt.Fprintln(os.Stderr,
+			"Error occured during parsing data file:\n",
+			err.Error());
 		os.Exit(1);
 	}
 
-	log.Fatal("text");
+	fmt.Println("7:, ", FactorialBig(7))
+	hi();
 
-	fmt.Printf("Name: %d\n", cfg.Data.Ncount);
+	// debug
+
 }
+
