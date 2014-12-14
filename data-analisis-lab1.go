@@ -70,19 +70,19 @@ func main() {
 	}
 
 
-	/* Init convinient vars */
+	/* Init convinient vars aliases */
 
-	N := cfg.Data.Ncount
-	n_min := cfg.Data.Nmin
-	n_max := cfg.Data.Nmax
-	alpha := cfg.Data.Alpha
-	D_provider := cfg.Data.Dprovider
-	D_customer := cfg.Data.Dcustomer
-	step := cfg.Data.Step
+	N		:= cfg.Data.Ncount
+	n_min		:= cfg.Data.Nmin
+	n_max		:= cfg.Data.Nmax
+	alpha		:= cfg.Data.Alpha
+	D_provider	:= cfg.Data.Dprovider
+	D_customer	:= cfg.Data.Dcustomer
+	step		:= cfg.Data.Step
 	fmt.Println("N: \t", N);
 	fmt.Println("n_min: \t", n_min);
 	fmt.Println("n_max: \t", n_max);
-	fmt.Println("a: \t", alpha);
+	fmt.Println("alpha: \t", alpha);
 	fmt.Println("D_п: \t", D_provider);
 	fmt.Println("D_з: \t", D_customer);
 	fmt.Println("=========================")
@@ -90,7 +90,7 @@ func main() {
 
 	/* Minimal data checking */
 
-	if D_provider > n_max {
+	if D_provider > n_min {
 		fmt.Fprintln(os.Stderr,
 			"ERROR: D_provider must be <= n_min\n")
 		os.Exit(1);
@@ -101,42 +101,56 @@ func main() {
 		fmt.Printf("n = %d\n", n)
 		fmt.Println("--------------")
 
-		/* Calculate P( x=l | Ho ) */
+		/* Calculate P(x=l | Ho) */
 
-		P_values := make([]float64, D_provider+1, D_provider+1)
+		P1_sharp_values		:= make([]float64, D_provider+1, D_provider+1)
+		//P2_binom_aprox_values	:= make([]float64, D_provider+1, D_provider+1)
+		//P3_aprox_values	:= make([]float64, D_provider+1, D_provider+1)
+
 		for l:= uint64(0); l <= D_provider; l++ {
 			//fmt.Printf("l=%d , N=%d \n", l, N);
-			P_values[l] = P1_sharp(l, N, n, D_provider)
+			P1_sharp_values[l] = P1_sharp(l, N, n, D_provider)
 		}
 
 
-		/* Determine 'c' */
+		/* Determine 'c' and 'betta' */
 
-		c := 0
-		for summ, i := 0.0, len(P_values)-1; i >= 0; i-- {
-			summ += P_values[i]
-			//fmt.Printf("P(x = %2d) = %10.9f, summ: %f\n", i, P_values[i], summ);
+		c1 := find_c(P1_sharp_values, alpha);
+		betta1 := find_betta(N, n, D_customer, c1);
+
+
+		fmt.Printf("c1 = %d, betta = %f\n", c1, betta1);
+		fmt.Println("=========================")
+	}
+}
+
+// ------------------------------------------------------------------------- //
+func find_betta(N, n, D_customer uint64, c int) (betta float64) {
+	betta = 0.0
+
+	for i := 0; i <= c; i++ {
+		if (n-uint64(i)) > (N-D_customer) {
+			continue
+		}
+		betta += P1_sharp(uint64(i), N, n, D_customer)
+	}
+	return
+}
+
+// ------------------------------------------------------------------------- //
+func find_c(data_values[] float64, alpha float64) (c int) {
+	c = 0
+
+	for summ, i := 0.0, len(data_values)-1; i >= 0; i-- {
+			summ += data_values[i]
+			//fmt.Printf("P(x = %2d) = %10.9f, summ: %f\n", i, data_values[i], summ);
 
 			if summ > alpha {
 				c = i
 				break
 			}
-		}
-
-
-		/* Determine betta */
-
-		betta := 0.0
-		for i := 0; i <= c; i++ {
-			if (n-uint64(i)) > (N-D_customer) {
-				continue
-			}
-			betta += P1_sharp(uint64(i), N, n, D_customer)
-		}
-
-		fmt.Printf("c = %d, betta = %f\n", c, betta);
-		fmt.Println("=========================")
 	}
+	return
 }
 
 // ------------------------------------------------------------------------- //
