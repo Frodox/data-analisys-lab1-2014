@@ -7,7 +7,7 @@ import (
 )
 
 // C (n, k) = n! / k! (n-k)!
-func CombintationBig(n uint64, k uint64) (r *big.Int) {
+func CombinationBig(n uint64, k uint64) (r *big.Int) {
 
 	r = big.NewInt(1)
 
