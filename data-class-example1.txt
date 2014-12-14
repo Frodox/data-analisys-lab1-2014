@@ -1,0 +1,15 @@
+; config for lab1
+; ts: 8
+
+[data]
+ncount 		= 8	; N
+dprovider 	= 4
+dcustomer 	= 6
+nmin 		= 4
+nmax 		= 8
+step 		= 2
+alpha 		= 0.1
+
+; Results:
+; c = 3
+; betta = 0.785714
