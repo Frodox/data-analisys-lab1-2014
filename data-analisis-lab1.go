@@ -15,15 +15,16 @@ import (
 	"path"
 	"os"
 	"code.google.com/p/gcfg" // config parser
+	"math/big"
 )
 
 type Config struct {
 	Data struct {
-		Ncount		int;
-		Dprovider	int;
-		Dcustomer	int;
-		Nmin		int
-		Nmax		int
+		Ncount		uint64;
+		Dprovider	uint64;
+		Dcustomer	uint64;
+		Nmin		uint64
+		Nmax		uint64
 		Step		int;
 		Alpha		float64
 	}
@@ -68,10 +69,43 @@ func main() {
 		os.Exit(1);
 	}
 
-	fmt.Println("7:, ", FactorialBig(7))
-	hi();
 
-	// debug
+	N := cfg.Data.Ncount
+	fmt.Println("N: ", N);
+	n := cfg.Data.Nmin
+	fmt.Println("n: ", n);
+	D_provider := cfg.Data.Dprovider
 
+
+	for l:= uint64(0); l <= D_provider; l++ {
+		fmt.Printf("P(x = %2d) = %10.9f\n", l, P1_sharp(l, N, n, D_provider));
+		//P1_sharp(l, N, n, D_provider);
+	}
+}
+
+func P1_sharp ( l uint64, N uint64, n uint64, D_f uint64 ) (res float64) {
+
+	res = 0;
+	C := CombinationBig // just alias
+
+	// C (D_f, l) * C (N-D_f, n-l)
+	numerator_int := big.NewInt(1);
+	numerator_int.Mul( C(D_f, l), C(N-D_f, n-l) );
+
+	numerator_rat := big.NewRat(1, 1);
+	numerator_rat.SetInt(numerator_int);
+
+	// C (N, n)
+	denominator_int := C(N, n);
+
+	denominator_rat := big.NewRat(1, 1);
+	denominator_rat.SetInt(denominator_int);
+
+	// P = C (D_f, l) * C (N-D_f, n-l)   /   C (N, n)
+	P := big.NewRat(1, 1);
+	P.Quo(numerator_rat, denominator_rat);
+
+	res, _ = P.Float64();
+	return
 }
 
