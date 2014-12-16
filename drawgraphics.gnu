@@ -11,7 +11,7 @@ set grid xtics lt 0 lw 1 lc rgb "#bbbbbb"
 set grid ytics lt 0 lw 1 lc rgb "#bbbbbb"
 
 ### determine input data filename #
-if (!exists("inputdatafile")) inputdatafile='outputdata.var6.txt'
+if (!exists("inputdatafile")) inputdatafile='data/outputdata.var6.txt'
 
 
 # נועקשך חעבזיכ ###############################################################

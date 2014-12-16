@@ -50,7 +50,7 @@ func main() {
 	}
 	filenamePtr := flag.String(
 		"filename",
-		"lab1.data.var6.txt",
+		"data/lab1.data.var6.txt",
 		"txt datafile for this lab")
 	plotablePtr := flag.Bool(
 		"plotable",
