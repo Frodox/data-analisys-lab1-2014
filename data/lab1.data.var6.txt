@@ -1,4 +1,5 @@
 ; config for lab1
+; var 6
 ; ts: 8
 
 [data]

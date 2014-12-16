@@ -1,0 +1,12 @@
+; config for lab1
+; var 6
+; ts: 8
+
+[data]
+ncount 		= 1000
+dprovider 	= 50
+dcustomer 	= 100
+nmin 		= 100
+nmax 		= 200
+step 		= 10
+alpha 		= 0.01
