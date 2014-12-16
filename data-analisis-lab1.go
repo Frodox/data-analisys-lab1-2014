@@ -142,9 +142,9 @@ func main() {
 		c2 := find_c(P2_binom_aprox_values, alpha);
 		c3 := find_c(P3_aprox_values, alpha);
 
-		betta1 := find_betta(N, n, D_customer, c1);
-		betta2 := find_betta(N, n, D_customer, c2);
-		betta3 := find_betta(N, n, D_customer, c3);
+		betta1 := find_betta(N, n, D_customer, c1, P1_sharp);
+		betta2 := find_betta(N, n, D_customer, c2, P2_binom);
+		betta3 := find_betta(N, n, D_customer, c3, P3_aprox);
 
 		if pb {
 			fmt.Printf("\t%d\t%10.9f\t%d\t%10.9f\t%d\t%10.9f\n",
@@ -161,14 +161,14 @@ func main() {
 }
 
 // ------------------------------------------------------------------------- //
-func find_betta(N, n, D_customer uint64, c int) (betta float64) {
+func find_betta(N, n, D_customer uint64, c int, P func(_, _, _, _ uint64) float64) (betta float64) {
 	betta = 0.0
 
 	for i := 0; i <= c; i++ {
 		if (n-uint64(i)) > (N-D_customer) {
 			continue
 		}
-		betta += P1_sharp(uint64(i), N, n, D_customer)
+		betta += P(uint64(i), N, n, D_customer)
 	}
 	return
 }
