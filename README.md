@@ -1,6 +1,12 @@
-data-analisys-lab1-2014
+Лабораторная по Анализу данных
 =======================
 
-How to draw graphics?
+*Дата:* осень 2014 (9й семестр)
+
+### Что это ?
+
+### Как запустить расчёты ?
+
+### Как построить график ?
 
 `$ gnuplot -e inputdatafile='outputdata.var6.txt' drawgraphics.gnu`
