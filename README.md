@@ -39,8 +39,10 @@
 
 1. [Установить интерпретатор языка Go](https://golang.org/doc/install)
 2. [Настроить окружение](https://golang.org/doc/code.html) для проектов на `Go`
+2. Скопировать вспомогательный проект  
+`go get code.google.com/p/gcfg`
 3. Скопировать текущий проект  
-`git clone https://github.com/Frodox/data-analysis-lab1-2014.git $GOPATH/src/github.com/Frodox/data-analisys-lab1`
+`go get github.com/Frodox/data-analysis-lab1-2014`
 4. Установить программу `gnuplot`
 
 
@@ -48,7 +50,7 @@
 
 4. Создать файл `data/lab1.data.varX.txt` на основе файла
 `data/lab1.data.var6.txt` со своими входными данными
-5. `cd $GOPATH/src/github.com/Frodox/data-analisys-lab1`
+5. `cd $GOPATH/src/github.com/Frodox/data-analysis-lab1-2014`
 6. Сборка проекта: `go build -o lab1 .`
 7. Запуск расчётов: `./lab1 --filename data/lab1.data.varX.txt`
 8. Запуск расчётов с форматированным выводом:  
