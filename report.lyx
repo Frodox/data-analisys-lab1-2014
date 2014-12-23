@@ -519,6 +519,24 @@ thispagestyle{empty}
 \end_layout
 
 \begin_layout Standard
+В результате выполнения лабораторной была разработана программа, которая
+ выполняет необходимые расчёты для любых валидных входных данных.
+ С ней можно ознакомиться на 
+\family typewriter
+
+\begin_inset CommandInset href
+LatexCommand href
+name "официальной страничке автора"
+target "https://github.com/Frodox/data-analysis-lab1-2014"
+
+\end_inset
+
+
+\family default
+.
+\end_layout
+
+\begin_layout Standard
 Результаты расчёта приёмочного числа и вероятности ошибки второго рода с
  использованием первой, второй и третьей формулы соответственно.
 \end_layout
