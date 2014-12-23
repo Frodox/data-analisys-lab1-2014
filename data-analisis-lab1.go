@@ -17,6 +17,7 @@ import (
 	"code.google.com/p/gcfg" // config parser
 	"math"
 	"math/big"
+	hm "./mathfuncs"
 )
 
 type Config struct {
@@ -195,7 +196,7 @@ func find_c(data_values[] float64, alpha float64) (c int) {
 func P1_sharp ( l, N, n, D_f uint64 ) (res float64) {
 
 	res = 0;
-	C := CombinationBig // just alias
+	C := hm.CombinationBig // just alias
 
 	// C (D_f, l) * C (N-D_f, n-l)
 	//fmt.Printf("D: C(%d, %d) * C(%d, %d)\n", D_f, l, N-D_f, n-l);
@@ -226,7 +227,7 @@ func P1_sharp ( l, N, n, D_f uint64 ) (res float64) {
 func P2_binom ( l, N, n, D_f uint64 ) (res float64) {
 
 	res = 0;
-	C := CombinationBig // just alias
+	C := hm.CombinationBig // just alias
 	po := float64(D_f) / float64(N)
 
 	first_arg := C(n, l); // big.Int
@@ -259,7 +260,7 @@ func P3_aprox ( l, N, n, D_f uint64 ) (res float64) {
 	exponenta_rat.SetFloat64( math.Exp(-1 * lambda) );
 
 	l_factorial_rat := big.NewRat(1, 1);
-	l_factorial_rat.SetInt( FactorialBig(l) )
+	l_factorial_rat.SetInt( hm.FactorialBig(l) )
 
 	P := big.NewRat(1, 1);
 	P.Quo(lambda_l_rat, l_factorial_rat);
